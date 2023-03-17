@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import css from './ImageGallery.module.css';
+import propTypes from 'prop-types';
 
 export class ImageGallery extends Component {
   render() {
@@ -20,3 +21,8 @@ export class ImageGallery extends Component {
     );
   }
 }
+
+ImageGallery.propTypes = {
+  images: propTypes.array,
+  onShow: propTypes.func,
+};
