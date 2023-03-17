@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { Button } from 'components/Button';
+import { Button } from 'components/Button/Button';
+import { Notify } from 'notiflix';
+import css from './Searchbar.module.css';
 
 export class Searchbar extends Component {
   state = {
@@ -15,27 +17,33 @@ export class Searchbar extends Component {
 
   onHandleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.value);
+    const value = this.state.value;
+    if (value.trim() !== '') {
+      this.props.onSubmit(this.state.value);
+    } else {
+      Notify.info('Please provide a query');
+      return;
+    }
   };
   render() {
     return (
-      <header className="searchbar">
-        <form className="form">
-          <Button
-            callback={this.onHandleSubmit}
-            className="button"
-            text="false"
-            type="submit"
-          />
-
+      <header className={css.searchbar}>
+        <h1>Pixabay Image Finder</h1>
+        <form className={css.searchForm}>
           <input
-            className="input"
+            className={css.searchForm_input}
             type="text"
             autoComplete="off"
             autoFocus
-            placeholder="Search for images and photos"
+            placeholder="Search for..."
             value={this.state.value}
             onChange={this.onHandleChange}
+          />
+          <Button
+            callback={this.onHandleSubmit}
+            className={css.searchFormButton}
+            text="false"
+            type="submit"
           />
         </form>
       </header>

@@ -1,13 +1,20 @@
 import { Component } from 'react';
-import { ImageGalleryItem } from 'components/ImageGalleryItem';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import css from './ImageGallery.module.css';
 
 export class ImageGallery extends Component {
   render() {
-    const { images } = this.props;
+    const { images, onShow } = this.props;
     return (
-      <ul className="gallery">
-        {images.map(image => (
-          <ImageGalleryItem image={image} key={image.id} />
+      <ul className={css.imageGallery}>
+        {images.map(({ webformatURL, largeImageURL, id, tags }) => (
+          <ImageGalleryItem
+            webformatURL={webformatURL}
+            largeImageURL={largeImageURL}
+            onShow={onShow}
+            tags={tags}
+            key={id}
+          />
         ))}
       </ul>
     );

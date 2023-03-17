@@ -2,55 +2,96 @@ import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 import { URL } from 'constants';
-import { Button } from './Button';
+import { Button } from './Button/Button';
+import css from './Button/Button.module.css';
+import 'index.css';
+import { Notify } from 'notiflix';
+import { Modal } from './Modal/Modal';
+import { Spinner } from './Loader/Loader';
 
 export class App extends Component {
   state = {
     images: [],
     query: '',
     page: 1,
+    isLoading: false,
+    largeImageURL: '',
+    showModal: false,
+  };
+
+  onShow = url => {
+    this.setState({ showModal: true, largeImageURL: url });
+    
+  };
+
+  onClose = event => {
+    this.setState({ showModal: false, largeImageURL: '' });
   };
 
   onSubmit = async query => {
     this.setState({
       query,
+      isLoading: true,
     });
     const response = await fetch(
       `${URL}q=${query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
-    ).then(resp => resp.json());
+    )
+      .then(response => response.json())
+      .catch(error => Notify.failure('Sorry, something went wrong...', error));
+
+    if (response && response.hits.length > 0) {
+      this.setState(prevState => {
+        return {
+          images: [...response.hits],
+          page: this.state.page + 1,
+          isLoading: false,
+        };
+      });
+    } else {
+      Notify.info('Sorry, there are no pictures matching your search');
+      this.setState({
+        images: [],
+      });
+    }
+  };
+
+  loadMore = async () => {
+    this.setState({
+      isLoading: true,
+    });
+    const response = await fetch(
+      `${URL}q=${this.state.query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
+    ).then(response => response.json());
     if (response && response.hits) {
       this.setState(prevState => {
         return {
           images: [...this.state.images, ...response.hits],
-          page: prevState.page + 1,
+          page: this.state.page + 1,
+          isLoading: false,
         };
-      });     
-     
+      });
     }
   };
-
-   loadMore = async () => {
-     const response = await fetch(
-       `${URL}q=${this.state.query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
-     ).then(resp => resp.json());
-     if (response && response.hits) {
-       this.setState((prevState) => {
-         return {
-           images: [...this.state.images, ...response.hits],
-           page: prevState.page + 1,
-         }
-       });     
-     }
-   };
 
   render() {
     return (
       <div className="App">
         <Searchbar onSubmit={this.onSubmit} />
-        {this.state.images && this.state.images.length && (
-          <ImageGallery images={this.state.images} />
+        {this.state.isLoading ? (
+          <Spinner />
+        ) : (
+          <ImageGallery images={this.state.images} onShow={this.onShow} />
         )}
-        <Button callback={this.loadMore} text={'true'} />
+        {this.state.images.length > 0 && (
+          <Button
+            callback={this.loadMore}
+            className={css.button}
+            text={'true'}
+          />
+        )}
+        {this.state.showModal && (
+          <Modal onClose={this.onClose} image={this.state.largeImageURL} />
+        )}
       </div>
     );
   }
