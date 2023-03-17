@@ -21,7 +21,6 @@ export class App extends Component {
 
   onShow = url => {
     this.setState({ showModal: true, largeImageURL: url });
-    
   };
 
   onClose = event => {
