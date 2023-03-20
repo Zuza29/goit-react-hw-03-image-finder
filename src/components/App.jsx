@@ -28,7 +28,7 @@ export class App extends Component {
   };
 
   onSubmit = async query => {
-    this.setState({
+       this.setState({
       query,
       isLoading: true,
     });
@@ -54,22 +54,11 @@ export class App extends Component {
     }
   };
 
-  loadMore = async () => {
+  loadMore = async (evt) => {
+    evt.preventDefault();
     this.setState({
-      isLoading: true,
-    });
-    const response = await fetch(
-      `${URL}q=${this.state.query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
-    ).then(response => response.json());
-    if (response && response.hits) {
-      this.setState(prevState => {
-        return {
-          images: [...this.state.images, ...response.hits],
-          page: this.state.page + 1,
-          isLoading: false,
-        };
-      });
-    }
+     page: this.state.page + 1
+   }, () => {this.onSubmit(this.state.query)})
   };
 
   render() {

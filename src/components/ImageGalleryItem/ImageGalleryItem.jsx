@@ -22,5 +22,4 @@ ImageGalleryItem.propTypes = {
   webformatURL: propTypes.string,
   largeImageURL: propTypes.string,
   onShow: propTypes.func,
-  tags: propTypes.array,
 };

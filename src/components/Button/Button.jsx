@@ -6,7 +6,9 @@ export class Button extends Component {
     const { callback, text, type, className } = this.props;
     return (
       <>
-        <button className={className} type={type} onClick={callback}>
+        <button className={className} type={type} onClick={event => {
+          callback(event);
+        }}>
           {text === 'true' && 'Load more'}
         </button>
       </>
