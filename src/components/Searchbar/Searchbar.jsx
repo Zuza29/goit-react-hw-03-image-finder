@@ -29,7 +29,7 @@ export class Searchbar extends Component {
     return (
       <header className={css.searchbar}>
         <h1>Pixabay Image Finder</h1>
-        <form className={css.searchForm}>
+        <form className={css.searchForm} onSubmit={this.onHandleSubmit}>
           <input
             className={css.searchForm_input}
             type="text"
@@ -39,12 +39,7 @@ export class Searchbar extends Component {
             value={this.state.value}
             onChange={this.onHandleChange}
           />
-          <Button
-            callback={this.onHandleSubmit}
-            className={css.searchFormButton}
-            text="false"
-            type="submit"
-          />
+          <Button className={css.searchFormButton} text="false" type="submit" />
         </form>
       </header>
     );

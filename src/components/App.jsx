@@ -23,53 +23,53 @@ export class App extends Component {
     this.setState({ showModal: true, largeImageURL: url });
   };
 
-  onClose = event => {
+  onClose = () => {
     this.setState({ showModal: false, largeImageURL: '' });
   };
 
   onSubmit = async query => {
-       this.setState({
-      query,
-      isLoading: true,
-    });
-    const response = await fetch(
-      `${URL}q=${query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
-    )
-      .then(response => response.json())
-      .catch(error => Notify.failure('Sorry, something went wrong...', error));
-
-    if (response && response.hits.length > 0) {
-      this.setState(prevState => {
-        return {
-          images: [...response.hits],
-          page: this.state.page + 1,
-          isLoading: false,
-        };
-      });
-    } else {
-      Notify.info('Sorry, there are no pictures matching your search');
+    if (query !== this.state.query) {
+      this.setState({ images: [], page: 1, query });
+    } {
       this.setState({
-        images: [],
+        query,
+        isLoading: true,
       });
-    }
-  };
+      const response = await fetch(
+        `${URL}q=${query}&page=${this.state.page}&key=31646288-d6f5eefd60163767746b31051&image_type=photo&orientation=horizontal&per_page=12`
+      )
+        .then(response => response.json())
+        .catch(error => Notify.failure('Sorry, something went wrong...', error));
 
-  loadMore = async (evt) => {
-    evt.preventDefault();
-    this.setState({
-     page: this.state.page + 1
-   }, () => {this.onSubmit(this.state.query)})
+      if (response && response.hits.length > 0) {
+        this.setState(() => {
+          return {
+            images: [...this.state.images, ...response.hits],
+            page: this.state.page + 1,
+            isLoading: false,
+          };
+        });
+      } else {
+        Notify.info('Sorry, there are no pictures matching your search');
+        this.setState({
+          images: [],
+        });
+      }
+    }
+};
+
+  loadMore = async event => {
+    event.preventDefault();
+    this.onSubmit(this.state.query);
   };
 
   render() {
     return (
       <div className="App">
         <Searchbar onSubmit={this.onSubmit} />
-        {this.state.isLoading ? (
-          <Spinner />
-        ) : (
-          <ImageGallery images={this.state.images} onShow={this.onShow} />
-        )}
+        {this.state.isLoading && <Spinner />}
+        <ImageGallery images={this.state.images} onShow={this.onShow} />
+
         {this.state.images.length > 0 && (
           <Button
             callback={this.loadMore}

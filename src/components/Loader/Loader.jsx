@@ -14,6 +14,7 @@ export const Spinner = () => {
         wrapperClass={{}}
         wrapperStyle=""
         visible={true}
+        className={css.loader}
       />
     </div>
   );
