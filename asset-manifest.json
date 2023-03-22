@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Zuza29/goit-react-hw-03-image-finder/static/css/main.fbd5ec75.css",
-    "main.js": "/Zuza29/goit-react-hw-03-image-finder/static/js/main.7337401a.js",
-    "index.html": "/Zuza29/goit-react-hw-03-image-finder/index.html",
-    "static/media/icon.svg": "/Zuza29/goit-react-hw-03-image-finder/static/media/icon.1b1bc4c2d42da1afbd4e.svg",
-    "main.fbd5ec75.css.map": "/Zuza29/goit-react-hw-03-image-finder/static/css/main.fbd5ec75.css.map",
-    "main.7337401a.js.map": "/Zuza29/goit-react-hw-03-image-finder/static/js/main.7337401a.js.map"
+    "main.css": "/goit-react-hw-03-image-finder/static/css/main.0f1f3742.css",
+    "main.js": "/goit-react-hw-03-image-finder/static/js/main.8cb3c9ef.js",
+    "index.html": "/goit-react-hw-03-image-finder/index.html",
+    "static/media/icon.svg": "/goit-react-hw-03-image-finder/static/media/icon.1b1bc4c2d42da1afbd4e.svg",
+    "main.0f1f3742.css.map": "/goit-react-hw-03-image-finder/static/css/main.0f1f3742.css.map",
+    "main.8cb3c9ef.js.map": "/goit-react-hw-03-image-finder/static/js/main.8cb3c9ef.js.map"
   },
   "entrypoints": [
-    "static/css/main.fbd5ec75.css",
-    "static/js/main.7337401a.js"
+    "static/css/main.0f1f3742.css",
+    "static/js/main.8cb3c9ef.js"
   ]
 }
